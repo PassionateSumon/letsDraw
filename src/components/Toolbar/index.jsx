@@ -3,33 +3,33 @@ import classes from "./index.module.css";
 import cx from "classnames";
 import {
   FaSlash,
-  FaPaintBrush,
 } from "react-icons/fa";
+import { LuRectangleHorizontal } from "react-icons/lu";
 import boardContext from "../../Store/board-context";
 import { TOOL_ITEMS } from "../../constants";
 
 const Toolbar = () => {
-  const { activeToolItem, handleToolItem } = useContext(boardContext);
+  const { activeToolItem, changeToolHandler } = useContext(boardContext);
 
   return (
     <>
       <div className={classes.container}>
         <div
           className={cx(classes.toolItem, {
-            [classes.active]: activeToolItem === TOOL_ITEMS.BRUSH,
+            [classes.active]: activeToolItem === TOOL_ITEMS.LINE,
           })}
-          onClick={() => handleToolItem(TOOL_ITEMS.BRUSH)}
+          onClick={() => changeToolHandler(TOOL_ITEMS.LINE)}
         >
-          <FaPaintBrush />
+          <FaSlash />
         </div>
 
         <div
           className={cx(classes.toolItem, {
-            [classes.active]: activeToolItem === TOOL_ITEMS.LINE,
+            [classes.active]: activeToolItem === TOOL_ITEMS.RECTANGLE,
           })}
-          onClick={() => handleToolItem(TOOL_ITEMS.LINE)}
+          onClick={() => changeToolHandler(TOOL_ITEMS.RECTANGLE)}
         >
-          <FaSlash />
+          <LuRectangleHorizontal />
         </div>
       </div>
     </>

@@ -1,9 +1,10 @@
 import React, { useReducer } from "react";
 import boardContext from "./board-context";
 import { BOARD_ACTIONS, TOOL_ACTION_TYPES, TOOL_ITEMS } from "../constants";
-import rough from "roughjs/bin/rough";
+// import rough from "roughjs/bin/rough";
+import { createRoughElement } from "../Utils/Elements";
 
-const gen = rough.generator();
+// const gen = rough.generator();
 const boardReducer = (state, action) => {
   switch (action.type) {
     case BOARD_ACTIONS.CHANGE_TOOL: {
@@ -15,14 +16,14 @@ const boardReducer = (state, action) => {
 
     case BOARD_ACTIONS.DRAW_DOWN: {
       const { clientX, clientY } = action.payload;
-      const newEle = {
-        id: state.elements.length,
-        x1: clientX,
-        y1: clientY,
-        x2: clientX,
-        y2: clientY,
-        roughEle: gen.line(clientX, clientY, clientX, clientY),
-      };
+      const newEle = createRoughElement(
+        state.elements.length,
+        clientX,
+        clientY,
+        clientX,
+        clientY,
+        { type: state.activeToolItem }
+      );
       const prevEle = state.elements;
       return {
         ...state,
@@ -32,21 +33,14 @@ const boardReducer = (state, action) => {
     }
 
     case BOARD_ACTIONS.DRAW_MOVE: {
-      // console.log(state);
       const { clientX, clientY } = action.payload;
       const newElements = [...state.elements];
-      console.log(state.elements);
       const index = state.elements.length - 1;
-      newElements[index].x2 = clientX;
-      // console.log(newElements[index].x2);
-      newElements[index].y2 = clientY;
-      // console.log(newElements[index].y2);
-      newElements[index].roughEle = gen.line(
-        newElements[index].x1,
-        newElements[index].y1,
-        clientX,
-        clientY
-      );
+      const { x1, y1 } = newElements[index];
+      const newElement = createRoughElement(index, x1, y1, clientX, clientY, {
+        type: state.activeToolItem,
+      });
+      newElements[index] = newElement;
       return {
         ...state,
         elements: newElements,
