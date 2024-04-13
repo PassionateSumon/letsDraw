@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import rough from "roughjs";
 import BoardContext from "../../Store/board-context";
 import { TOOL_ACTION_TYPES } from "../../constants";
@@ -19,10 +19,11 @@ function Board() {
     canvas.width = window.innerWidth;
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.save();
+    
     const roughCanvas = rough.canvas(canvas);
     elements.forEach((element) => {
       roughCanvas.draw(element.roughEle);
