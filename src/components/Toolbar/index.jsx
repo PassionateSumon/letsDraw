@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import classes from "./index.module.css";
 import cx from "classnames";
 import {
+  FaPaintBrush,
+  FaPencilAlt,
   FaSlash,
   FaRegCircle,
   FaArrowRight,
-  FaPaintBrush,
 } from "react-icons/fa";
 import { LuRectangleHorizontal } from "react-icons/lu";
 import boardContext from "../../Store/board-context";
@@ -17,6 +18,24 @@ const Toolbar = () => {
   return (
     <>
       <div className={classes.container}>
+      <div
+          className={cx(classes.toolItem, {
+            [classes.active]: activeToolItem === TOOL_ITEMS.BRUSH,
+          })}
+          onClick={() => changeToolHandler(TOOL_ITEMS.BRUSH)}
+        >
+          <FaPaintBrush />
+        </div>
+
+        <div
+          className={cx(classes.toolItem, {
+            [classes.active]: activeToolItem === TOOL_ITEMS.PENCIL
+          })}
+          onClick={() => changeToolHandler(TOOL_ITEMS.PENCIL)}
+        >
+          <FaPencilAlt />
+        </div>
+
         <div
           className={cx(classes.toolItem, {
             [classes.active]: activeToolItem === TOOL_ITEMS.LINE,
@@ -53,14 +72,6 @@ const Toolbar = () => {
           <FaArrowRight />
         </div>
 
-        <div
-          className={cx(classes.toolItem, {
-            [classes.active]: activeToolItem === TOOL_ITEMS.BRUSH,
-          })}
-          onClick={() => changeToolHandler(TOOL_ITEMS.BRUSH)}
-        >
-          <FaPaintBrush />
-        </div>
       </div>
     </>
   );

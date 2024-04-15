@@ -48,6 +48,16 @@ export const createRoughElement = (
       };
       return brushElement;
     }
+    case TOOL_ITEMS.PENCIL: {
+      const pencilElement = {
+        id,
+        points: [{ x: x1, y: y1 }],
+        type,
+        stroke,
+        size,
+      };
+      return pencilElement;
+    }
     case TOOL_ITEMS.LINE: {
       element.roughEle = gen.line(x1, y1, x2, y2, options);
       return element;

@@ -72,8 +72,23 @@ const boardReducer = (state, action) => {
             { x: clientX, y: clientY },
           ];
           newElements[index].path = new Path2D(
-            getSvgPathFromStroke(getStroke(newElements[index].points))
+            getSvgPathFromStroke(
+              getStroke(newElements[index].points, {
+                thinning: 0.8,
+                smoothing: 0.6,
+              })
+            )
           );
+          return {
+            ...state,
+            elements: newElements,
+          };
+        }
+        case TOOL_ITEMS.PENCIL: {
+          const { clientX, clientY } = action.payload;
+          const newElements = [...state.elements];
+          const index = state.elements.length - 1;
+          newElements[index].points.push({ x: clientX, y: clientY });
           return {
             ...state,
             elements: newElements,
@@ -96,7 +111,7 @@ const boardReducer = (state, action) => {
 };
 
 const initialBoardState = {
-  activeToolItem: TOOL_ITEMS.LINE,
+  activeToolItem: TOOL_ITEMS.NONE,
   toolActionType: TOOL_ACTION_TYPES.NONE,
   elements: [],
 };

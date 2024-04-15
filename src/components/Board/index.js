@@ -39,6 +39,19 @@ function Board() {
           context.fill(element.path);
           context.restore();
           break;
+        case TOOL_ITEMS.PENCIL:
+          if (element.points.length > 1) {
+            context.strokeStyle = element.stroke;
+            context.lineWidth = element.size;
+            context.lineCap = 'round';
+            context.beginPath();
+            context.moveTo(element.points[0].x, element.points[0].y);
+            element.points.slice(1).forEach((point) => {
+              context.lineTo(point.x, point.y);
+            });
+            context.stroke();
+          }
+          break;
         default:
           throw new Error("Type not recognized");
       }

@@ -1,11 +1,13 @@
 export const TOOL_ITEMS = {
     BRUSH: "BRUSH",
+    PENCIL: "PENCIL",
     LINE: "LINE",
     RECTANGLE: "RECTANGLE",
     CIRCLE: "CIRCLE",
     ARROW: "ARROW",
     ERASER: "ERASER",
     TEXT: "TEXT",
+    NONE: "NONE"
   };
   
   export const TOOL_ACTION_TYPES = {
@@ -46,6 +48,7 @@ export const TOOL_ITEMS = {
   export const FILL_TOOL_TYPES = [TOOL_ITEMS.RECTANGLE, TOOL_ITEMS.CIRCLE];
   export const STROKE_TOOL_TYPES = [
     TOOL_ITEMS.BRUSH,
+    TOOL_ITEMS.PENCIL,
     TOOL_ITEMS.LINE,
     TOOL_ITEMS.ARROW,
     TOOL_ITEMS.RECTANGLE,
@@ -53,6 +56,7 @@ export const TOOL_ITEMS = {
     TOOL_ITEMS.TEXT,
   ];
   export const SIZE_TOOL_TYPES = [
+    TOOL_ITEMS.PENCIL,
     TOOL_ITEMS.LINE,
     TOOL_ITEMS.ARROW,
     TOOL_ITEMS.RECTANGLE,
