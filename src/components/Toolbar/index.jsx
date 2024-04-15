@@ -5,6 +5,7 @@ import {
   FaSlash,
   FaRegCircle,
   FaArrowRight,
+  FaPaintBrush,
 } from "react-icons/fa";
 import { LuRectangleHorizontal } from "react-icons/lu";
 import boardContext from "../../Store/board-context";
@@ -50,6 +51,15 @@ const Toolbar = () => {
           onClick={() => changeToolHandler(TOOL_ITEMS.ARROW)}
         >
           <FaArrowRight />
+        </div>
+
+        <div
+          className={cx(classes.toolItem, {
+            [classes.active]: activeToolItem === TOOL_ITEMS.BRUSH,
+          })}
+          onClick={() => changeToolHandler(TOOL_ITEMS.BRUSH)}
+        >
+          <FaPaintBrush />
         </div>
       </div>
     </>
