@@ -1,6 +1,11 @@
 import React from "react";
 import classes from "./index.module.css";
-import { COLORS, FILL_TOOL_TYPES, STROKE_TOOL_TYPES } from "../../constants";
+import {
+  COLORS,
+  FILL_TOOL_TYPES,
+  SIZE_TOOL_TYPES,
+  STROKE_TOOL_TYPES,
+} from "../../constants";
 import cx from "classnames";
 import { useContext } from "react";
 import toolboxContext from "../../Store/toolbox-context";
@@ -8,10 +13,12 @@ import BoardContext from "../../Store/board-context";
 
 function Toolbox() {
   const { activeToolItem } = useContext(BoardContext);
-  const { toolboxState, changeStroke, changeFill } = useContext(toolboxContext);
+  const { toolboxState, changeStroke, changeFill, changeSize } =
+    useContext(toolboxContext);
 
   const strokeColor = toolboxState[activeToolItem]?.stroke;
   const fillColor = toolboxState[activeToolItem]?.fill;
+  const size = toolboxState[activeToolItem]?.size;
 
   return (
     <div className={classes.container}>
@@ -28,6 +35,7 @@ function Toolbox() {
             {Object.keys(COLORS).map((k) => {
               return (
                 <div
+                  key={k}
                   className={cx(classes.colorBox, {
                     [classes.activeColorBox]: strokeColor === COLORS[k],
                   })}
@@ -47,6 +55,7 @@ function Toolbox() {
             {Object.keys(COLORS).map((k) => {
               return (
                 <div
+                  key={k}
                   className={cx(classes.colorBox, {
                     [classes.activeColorBox]: fillColor === COLORS[k],
                   })}
@@ -55,6 +64,24 @@ function Toolbox() {
                 ></div>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {SIZE_TOOL_TYPES.includes(activeToolItem) && (
+        <div className={classes.selectOptionContainer}>
+          <div className={classes.toolBoxLabel}>Size</div>
+          <div className={classes.colorsContainer}>
+            <input
+              type="range"
+              min={1}
+              max={10}
+              step={1}
+              value={size}
+              onChange={(event) => {
+                changeSize(activeToolItem, event.target.value);
+              }}
+            ></input>
           </div>
         </div>
       )}
