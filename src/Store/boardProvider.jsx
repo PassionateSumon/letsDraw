@@ -41,6 +41,11 @@ const boardReducer = (state, action) => {
       const index = state.elements.length - 1;
       const { type } = newElements[index];
 
+      console.log(state);
+      if(state.activeToolItem !== type) {
+        state.toolActionType = TOOL_ACTION_TYPES.NONE;
+      } 
+
       switch (type) {
         case TOOL_ITEMS.LINE:
         case TOOL_ITEMS.RECTANGLE:
