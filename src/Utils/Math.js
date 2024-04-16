@@ -1,3 +1,12 @@
+import { ELEMENT_ERASE_THRESHOLD } from "../constants";
+
+export const isPointCloseToLine = (x1, y1, x2, y2, pointX, pointY) => {
+  const distToStart = distanceBetweenPoints(x1, y1, pointX, pointY);
+  const distToEnd = distanceBetweenPoints(x2, y2, pointX, pointY);
+  const distLine = distanceBetweenPoints(x1, y1, x2, y2);
+  return Math.abs(distToStart + distToEnd - distLine) < ELEMENT_ERASE_THRESHOLD;
+};
+
 export const getArrowHeadsCoordinates = (x1, y1, x2, y2, arrowLength) => {
   /* Here we're using simple co-ordinate geometry
    for ArrowHead --> we know [tanθ = y2-y1 / x2-x1]
@@ -22,4 +31,10 @@ export const getArrowHeadsCoordinates = (x1, y1, x2, y2, arrowLength) => {
     x4,
     y4,
   };
+};
+
+const distanceBetweenPoints = (x1, y1, x2, y2) => {
+  const diffX = x2 - x1;
+  const diffY = y2 - y1;
+  return Math.sqrt(diffX * diffX + diffY * diffY);
 };

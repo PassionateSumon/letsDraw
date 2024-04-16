@@ -1,7 +1,7 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import rough from "roughjs";
 import BoardContext from "../../Store/board-context";
-import { TOOL_ACTION_TYPES, TOOL_ITEMS } from "../../constants";
+import { TOOL_ITEMS } from "../../constants";
 import toolboxContext from "../../Store/toolbox-context";
 
 function Board() {
@@ -11,7 +11,6 @@ function Board() {
     boardMouseDownHandler,
     boardMouseMoveHandler,
     boardMouseUpHandler,
-    toolActionType,
   } = useContext(BoardContext);
 
   useEffect(() => {
@@ -20,7 +19,6 @@ function Board() {
     canvas.width = window.innerWidth;
   }, []);
 
-  
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
@@ -43,7 +41,7 @@ function Board() {
           if (element.points.length > 1) {
             context.strokeStyle = element.stroke;
             context.lineWidth = element.size;
-            context.lineCap = 'round';
+            context.lineCap = "round";
             context.beginPath();
             context.moveTo(element.points[0].x, element.points[0].y);
             element.points.slice(1).forEach((point) => {
@@ -69,8 +67,7 @@ function Board() {
   };
 
   const handleMouseMove = (event) => {
-    if (toolActionType === TOOL_ACTION_TYPES.DRAWING)
-      boardMouseMoveHandler(event, toolboxState);
+    boardMouseMoveHandler(event, toolboxState);
   };
 
   const handleMouseUp = () => {
@@ -80,6 +77,7 @@ function Board() {
   return (
     <canvas
       ref={canvasRef}
+      id="canvas"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

@@ -1,6 +1,6 @@
 import { ARROW_LENGTH, TOOL_ITEMS } from "../constants";
 import rough from "roughjs/bin/rough";
-import { getArrowHeadsCoordinates } from "./Math";
+import { getArrowHeadsCoordinates, isPointCloseToLine } from "./Math";
 import getStroke from "perfect-freehand";
 
 const gen = rough.generator();
@@ -93,6 +93,35 @@ export const createRoughElement = (
       ];
       element.roughEle = gen.linearPath(points, options);
       return element;
+    }
+    default: {
+      throw new Error("Type not recognized");
+    }
+  }
+};
+
+export const isPointNearElement = (element, pointX, pointY) => {
+  const { x1, y1, x2, y2, type } = element;
+  const context = document.getElementById("canvas").getContext("2d");
+  switch (type) {
+    case TOOL_ITEMS.LINE:
+    case TOOL_ITEMS.ARROW: {
+      return isPointCloseToLine(x1, y1, x2, y2, pointX, pointY);
+    }
+    case TOOL_ITEMS.RECTANGLE:
+    case TOOL_ITEMS.CIRCLE: {
+      return (
+        isPointCloseToLine(x1, y1, x2, y1, pointX, pointY) ||
+        isPointCloseToLine(x1, y1, x1, y2, pointX, pointY) ||
+        isPointCloseToLine(x1, y2, x2, y2, pointX, pointY) ||
+        isPointCloseToLine(x2, y2, x2, y1, pointX, pointY)
+      );
+    }
+    case TOOL_ITEMS.BRUSH: {
+      return context.isPointInPath(element.path, pointX, pointY);
+    }
+    case TOOL_ITEMS.PENCIL: {
+      break;
     }
     default: {
       throw new Error("Type not recognized");

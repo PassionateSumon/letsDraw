@@ -58,6 +58,8 @@ const initialToolboxState = {
     stroke: COLORS.BLACK,
     size: 1,
   },
+  [TOOL_ITEMS.ERASER]: {
+  },
 };
 
 function ToolboxProvider({ children }) {
