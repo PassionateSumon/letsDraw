@@ -8,6 +8,8 @@ import {
   FaRegCircle,
   FaArrowRight,
   FaEraser,
+  FaUndoAlt,
+  FaRedoAlt,
 } from "react-icons/fa";
 import { IoText } from "react-icons/io5";
 import { LuRectangleHorizontal } from "react-icons/lu";
@@ -15,7 +17,7 @@ import boardContext from "../../Store/board-context";
 import { TOOL_ITEMS } from "../../constants";
 
 const Toolbar = () => {
-  const { activeToolItem, changeToolHandler } = useContext(boardContext);
+  const { activeToolItem, changeToolHandler, undo, redo } = useContext(boardContext);
 
   return (
     <>
@@ -90,6 +92,20 @@ const Toolbar = () => {
           onClick={() => changeToolHandler(TOOL_ITEMS.TEXT)}
         >
           <IoText />
+        </div>
+
+        <div
+          className={classes.toolItem}
+          onClick={() => undo()}
+        >
+          <FaUndoAlt />
+        </div>
+
+        <div
+          className={classes.toolItem}
+          onClick={() => redo()}
+        >
+          <FaRedoAlt />
         </div>
 
       </div>
