@@ -33,6 +33,16 @@ function Toolbox() {
             and when time to choose Background-color, i just take that particular color
             from COLORS...
         */}
+            <div>
+              <input
+                className={classes.colorPicker}
+                value={strokeColor}
+                type="color"
+                onChange={(event) =>
+                  changeStroke(activeToolItem, event.target.value)
+                }
+              ></input>
+            </div>
             {Object.keys(COLORS).map((k) => {
               return (
                 <div
