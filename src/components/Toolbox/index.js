@@ -63,6 +63,32 @@ function Toolbox() {
         <div className={classes.selectOptionContainer}>
           <div className={classes.toolBoxLabel}>Fill Color</div>
           <div className={classes.colorsContainer}>
+            {fillColor === null ? (
+              <div
+                className={cx(classes.colorPicker, classes.noFillColorBox)}
+                onChange={(event) =>
+                  changeFill(activeToolItem, COLORS.BLACK)
+                }
+              ></div>
+            ) : (
+              <div>
+                <input
+                  className={classes.colorPicker}
+                  value={fillColor}
+                  type="color"
+                  onChange={(event) =>
+                    changeFill(activeToolItem, event.target.value)
+                  }
+                ></input>
+              </div>
+            )}
+
+            <div
+              className={cx(classes.colorBox, classes.noFillColorBox, {
+                [classes.activeColorBox]: fillColor === null,
+              })}
+              onClick={() => changeFill(activeToolItem, null)}
+            ></div>
             {Object.keys(COLORS).map((k) => {
               return (
                 <div
