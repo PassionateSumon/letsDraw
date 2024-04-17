@@ -5,6 +5,7 @@ import {
   FILL_TOOL_TYPES,
   SIZE_TOOL_TYPES,
   STROKE_TOOL_TYPES,
+  TOOL_ITEMS,
 } from "../../constants";
 import cx from "classnames";
 import { useContext } from "react";
@@ -74,8 +75,8 @@ function Toolbox() {
           <div className={classes.colorsContainer}>
             <input
               type="range"
-              min={1}
-              max={10}
+              min={activeToolItem === TOOL_ITEMS.TEXT ? 16 : 1}
+              max={activeToolItem === TOOL_ITEMS.TEXT ? 64 : 10}
               step={1}
               value={size}
               onChange={(event) => {

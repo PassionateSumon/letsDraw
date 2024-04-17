@@ -34,7 +34,10 @@ const boardReducer = (state, action) => {
       const prevEle = state.elements;
       return {
         ...state,
-        toolActionType: TOOL_ACTION_TYPES.DRAWING,
+        toolActionType:
+          state.activeToolItem === TOOL_ITEMS.TEXT
+            ? TOOL_ACTION_TYPES.WRITING
+            : TOOL_ACTION_TYPES.DRAWING,
         elements: [...prevEle, newEle],
       };
     }
@@ -125,6 +128,16 @@ const boardReducer = (state, action) => {
         elements: newElements,
       };
     }
+    case BOARD_ACTIONS.CHANGE_TEXT: {
+      const index = state.elements.length - 1;
+      const newElements = [...state.elements];
+      newElements[index].text = action.payload.text;
+      return {
+        ...state,
+        toolActionType: TOOL_ACTION_TYPES.NONE,
+        elements: newElements,
+      }
+    }
     default:
       return state;
   }
@@ -152,6 +165,7 @@ const BoardProvider = ({ children }) => {
   };
 
   const boardMouseDownHandler = (event, toolboxState) => {
+    if(boardState.toolActionType === TOOL_ACTION_TYPES.WRITING) return;
     const { clientX, clientY } = event;
     if (boardState.activeToolItem === TOOL_ITEMS.ERASER) {
       dispatchBoardAction({
@@ -174,7 +188,8 @@ const BoardProvider = ({ children }) => {
     });
   };
 
-  const boardMouseMoveHandler = (event, toolboxState) => {
+  const boardMouseMoveHandler = (event) => {
+    if (boardState.toolActionType === TOOL_ACTION_TYPES.WRITING) return;
     const { clientX, clientY } = event;
     if (boardState.toolActionType === TOOL_ACTION_TYPES.DRAWING) {
       dispatchBoardAction({
@@ -196,6 +211,7 @@ const BoardProvider = ({ children }) => {
   };
 
   const boardMouseUpHandler = () => {
+    if (boardState.toolActionType === TOOL_ACTION_TYPES.WRITING) return;
     dispatchBoardAction({
       type: BOARD_ACTIONS.CHANGE_ACTION_TYPE,
       payload: {
@@ -203,6 +219,15 @@ const BoardProvider = ({ children }) => {
       },
     });
   };
+
+  const textAreaBlurHandler = (text) => {
+    dispatchBoardAction({
+      type: BOARD_ACTIONS.CHANGE_TEXT,
+      payload: {
+        text,
+      }
+    })
+  }
 
   const boardContextValue = {
     activeToolItem: boardState.activeToolItem,
@@ -212,6 +237,7 @@ const BoardProvider = ({ children }) => {
     boardMouseDownHandler,
     boardMouseMoveHandler,
     boardMouseUpHandler,
+    textAreaBlurHandler,
   };
 
   return (

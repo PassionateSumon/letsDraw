@@ -9,6 +9,7 @@ import {
   FaArrowRight,
   FaEraser,
 } from "react-icons/fa";
+import { IoText } from "react-icons/io5";
 import { LuRectangleHorizontal } from "react-icons/lu";
 import boardContext from "../../Store/board-context";
 import { TOOL_ITEMS } from "../../constants";
@@ -80,6 +81,15 @@ const Toolbar = () => {
           onClick={() => changeToolHandler(TOOL_ITEMS.ERASER)}
         >
           <FaEraser />
+        </div>
+
+        <div
+          className={cx(classes.toolItem, {
+            [classes.active]: activeToolItem === TOOL_ITEMS.TEXT,
+          })}
+          onClick={() => changeToolHandler(TOOL_ITEMS.TEXT)}
+        >
+          <IoText />
         </div>
 
       </div>
