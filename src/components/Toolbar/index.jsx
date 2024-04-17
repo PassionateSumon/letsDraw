@@ -44,15 +44,6 @@ const Toolbar = () => {
 
         <div
           className={cx(classes.toolItem, {
-            [classes.active]: activeToolItem === TOOL_ITEMS.PENCIL,
-          })}
-          onClick={() => changeToolHandler(TOOL_ITEMS.PENCIL)}
-        >
-          <FaPencilAlt />
-        </div>
-
-        <div
-          className={cx(classes.toolItem, {
             [classes.active]: activeToolItem === TOOL_ITEMS.LINE,
           })}
           onClick={() => changeToolHandler(TOOL_ITEMS.LINE)}
@@ -85,6 +76,15 @@ const Toolbar = () => {
           onClick={() => changeToolHandler(TOOL_ITEMS.ARROW)}
         >
           <FaArrowRight />
+        </div>
+
+        <div
+          className={cx(classes.toolItem, {
+            [classes.active]: activeToolItem === TOOL_ITEMS.PENCIL,
+          })}
+          onClick={() => changeToolHandler(TOOL_ITEMS.PENCIL)}
+        >
+          <FaPencilAlt />
         </div>
 
         <div
