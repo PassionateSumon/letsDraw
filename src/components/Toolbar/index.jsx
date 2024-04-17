@@ -10,6 +10,7 @@ import {
   FaEraser,
   FaUndoAlt,
   FaRedoAlt,
+  FaDownload,
 } from "react-icons/fa";
 import { IoText } from "react-icons/io5";
 import { LuRectangleHorizontal } from "react-icons/lu";
@@ -17,12 +18,22 @@ import boardContext from "../../Store/board-context";
 import { TOOL_ITEMS } from "../../constants";
 
 const Toolbar = () => {
-  const { activeToolItem, changeToolHandler, undo, redo } = useContext(boardContext);
+  const { activeToolItem, changeToolHandler, undo, redo } =
+    useContext(boardContext);
+
+  const clickDownloadHandler = () => {
+    const canvas = document.getElementById("canvas");
+    const data = canvas.toDataURL("image/jpg");
+    const anchor = document.createElement("a");
+    anchor.href = data;
+    anchor.download = "drawing.jpg";
+    anchor.click();
+  };
 
   return (
     <>
       <div className={classes.container}>
-      <div
+        <div
           className={cx(classes.toolItem, {
             [classes.active]: activeToolItem === TOOL_ITEMS.BRUSH,
           })}
@@ -33,7 +44,7 @@ const Toolbar = () => {
 
         <div
           className={cx(classes.toolItem, {
-            [classes.active]: activeToolItem === TOOL_ITEMS.PENCIL
+            [classes.active]: activeToolItem === TOOL_ITEMS.PENCIL,
           })}
           onClick={() => changeToolHandler(TOOL_ITEMS.PENCIL)}
         >
@@ -94,20 +105,20 @@ const Toolbar = () => {
           <IoText />
         </div>
 
-        <div
-          className={classes.toolItem}
-          onClick={() => undo()}
-        >
+        <div className={classes.toolItem} onClick={() => undo()}>
           <FaUndoAlt />
         </div>
 
-        <div
-          className={classes.toolItem}
-          onClick={() => redo()}
-        >
+        <div className={classes.toolItem} onClick={() => redo()}>
           <FaRedoAlt />
         </div>
 
+        <div
+          className={classes.toolItem}
+          onClick={() => clickDownloadHandler()}
+        >
+          <FaDownload />
+        </div>
       </div>
     </>
   );
