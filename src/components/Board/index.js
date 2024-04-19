@@ -15,6 +15,8 @@ function Board() {
     boardMouseMoveHandler,
     boardMouseUpHandler,
     textAreaBlurHandler,
+    undo,
+    redo,
   } = useContext(BoardContext);
 
   useEffect(() => {
@@ -22,6 +24,24 @@ function Board() {
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
   }, []);
+
+  useEffect(() => {
+    const keyDownHandler = (event) => {
+      if(event.ctrlKey && event.key === 'z') {
+        undo();
+      } else if(event.ctrlKey && event.key === 'y') {
+        redo();
+      }
+    }
+
+    document.addEventListener("keydown", keyDownHandler);
+
+    // I need to remove the EventListener bcz it'll create some obstackles
+    return (() => {
+      document.removeEventListener("keydown", keyDownHandler);
+    })
+
+  }, [undo, redo]);
 
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
@@ -54,7 +74,7 @@ function Board() {
             context.stroke();
           }
           break;
-        case TOOL_ITEMS.TEXT: 
+        case TOOL_ITEMS.TEXT:
           context.textBaseline = "top";
           context.font = `${element.size}px Algerian`;
           context.fillStyle = element.stroke;
@@ -71,14 +91,14 @@ function Board() {
     };
   }, [elements]);
 
-  useEffect( () => {
+  useEffect(() => {
     const textArea = textAreaRef.current;
-    if(toolActionType === TOOL_ACTION_TYPES.WRITING) {
-      setTimeout(()=> {
+    if (toolActionType === TOOL_ACTION_TYPES.WRITING) {
+      setTimeout(() => {
         textArea.focus();
-      },0)
+      }, 0);
     }
-  }, [toolActionType])
+  }, [toolActionType]);
 
   const { toolboxState } = useContext(toolboxContext);
 
@@ -96,18 +116,20 @@ function Board() {
 
   return (
     <>
-      {toolActionType === TOOL_ACTION_TYPES.WRITING && <textarea 
-      type="text"
-      ref={textAreaRef}
-      className={classes.textElementBox}
-      style={{
-        top: elements[elements.length-1].y1,
-        left: elements[elements.length-1].x1,
-        fontSize: `${elements[elements.length-1]?.size}px`,
-        color: elements[elements.length-1]?.stroke,
-      }} 
-        onBlur={(event) => textAreaBlurHandler(event.target.value)}
-      />}
+      {toolActionType === TOOL_ACTION_TYPES.WRITING && (
+        <textarea
+          type="text"
+          ref={textAreaRef}
+          className={classes.textElementBox}
+          style={{
+            top: elements[elements.length - 1].y1,
+            left: elements[elements.length - 1].x1,
+            fontSize: `${elements[elements.length - 1]?.size}px`,
+            color: elements[elements.length - 1]?.stroke,
+          }}
+          onBlur={(event) => textAreaBlurHandler(event.target.value)}
+        />
+      )}
 
       <canvas
         ref={canvasRef}

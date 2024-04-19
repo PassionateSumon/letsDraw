@@ -105,8 +105,8 @@ export const createRoughElement = (
 };
 
 export const isPointNearElement = (element, pointX, pointY) => {
-  const { x1, y1, x2, y2, type } = element;
   const context = document.getElementById("canvas").getContext("2d");
+  const { x1, y1, x2, y2, type } = element;
   switch (type) {
     case TOOL_ITEMS.LINE:
     case TOOL_ITEMS.ARROW: {
